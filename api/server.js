@@ -1,5 +1,7 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config();
 const cors = require("cors");
 
 const app = express();
@@ -36,6 +38,15 @@ app.delete("/todos/delete/:id", async (req, res) => {
   res.json(result);
 });
 
+app.get('/todo/complete/:id', async (req, res) => {
+	const todo = await Todo.findById(req.params.id);
+
+	todo.complete = !todo.complete;
+
+	todo.save();
+
+	res.json(todo);
+})
 app.put("/todo/update/:id", async (req, res) => {
   const todo = await Todo.findById(req.params.id);
   todo.complete = !todo.complete;
@@ -44,4 +55,4 @@ app.put("/todo/update/:id", async (req, res) => {
   res.json(todo);
 });
 
-app.listen(5500, () => console.log("server started on port 5500"));
+app.listen(process.env.PORT || 5500, () => console.log("server started on port 5500"));
