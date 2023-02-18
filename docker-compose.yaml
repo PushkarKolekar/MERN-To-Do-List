@@ -1,0 +1,15 @@
+version: "20.10.22"
+services:
+mongodb: 
+  image: "mongo"
+  volumes: 
+    -data:/data/db
+backend: 
+    build: ./api
+    ports: 
+    - "80:80"
+    volumes: 
+    - logs:/app/logs
+    - ./api:/server
+    - server/node_modules
+    
